@@ -5,6 +5,7 @@ import {
   signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -53,4 +54,33 @@ export const createUserWithGoogleAuth = async (userAuth) => {
   } else {
     return docRef;
   }
+};
+export const createUserWithEmailPassword = async (
+  email,
+  password,
+  displayName
+) => {
+  await createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+      const docRef = doc(db, "users", user.uid);
+      const createdAt = new Date();
+      try {
+        setDoc(docRef, {
+          displayName,
+          email,
+          createdAt,
+        });
+      } catch (error) {
+        console.log("error creating user", error.message);
+      }
+    })
+    .catch((error) => {
+      if (error.code === "auth/email-already-in-use") {
+        alert("this email is already in use");
+      } else {
+        console.log(`an error happened : ${error.message}`);
+      }
+    });
 };
