@@ -1,7 +1,11 @@
 import FormInput from "./Form-Input";
 import { useState } from "react";
-import { createUserWithEmailPassword } from "../../utils/firebase/firebase";
-
+import {
+  createUserWithEmailPassword,
+  createUserWithGoogleAuth,
+} from "../../utils/firebase/firebase";
+import Button from "./button";
+import "./Sign-up.scss";
 const defaultFormFields = {
   displayName: "",
   email: "",
@@ -17,10 +21,12 @@ const SignUpForm = () => {
     setFormFields(defaultFormFields);
   };
 
-  const formHandler = (event) => {
+  const formHandler = async (event) => {
     event.preventDefault();
     if (password === confirmPassword) {
-      createUserWithEmailPassword(email, password, displayName);
+      const { user } = await createUserWithEmailPassword(email, password);
+      await createUserWithGoogleAuth(user, { displayName });
+      console.log(user);
       resetInputs();
     } else {
       console.log(
@@ -35,9 +41,10 @@ const SignUpForm = () => {
   };
 
   return (
-    <div>
+    <div className="sign-up-container">
       <form onSubmit={formHandler}>
-        <h1>Sign up with your email and password</h1>
+        <h2>Don't have an acoount?</h2>
+        <span>Sign up with your email and password</span>
 
         <FormInput
           label="Display Name"
@@ -71,7 +78,7 @@ const SignUpForm = () => {
           name="confirmPassword"
           value={confirmPassword}
         />
-        <button type="submit">Sign Up</button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   );
