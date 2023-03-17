@@ -6,6 +6,7 @@ import {
   createUserWithGoogleAuth,
 } from "./../../utils/firebase/firebase";
 import { signInUserWithEmailAndPassword } from "./../../utils/firebase/firebase";
+
 import "./sign-in-form.scss";
 
 const defaultFormFields = {
@@ -34,7 +35,9 @@ const SignInForm = () => {
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      await signInUserWithEmailAndPassword(email, password);
+      const { user } = await signInUserWithEmailAndPassword(email, password);
+      
+      resetInputs();
     } catch (error) {
       switch (error.code) {
         case "auth/wrong-password":
@@ -50,7 +53,6 @@ const SignInForm = () => {
           console.log(error);
       }
     }
-    resetInputs();
   };
 
   return (

@@ -1,10 +1,14 @@
 // This code creates a React component called Navigation which renders a div containing an h1 tag and an Outlet component. The Outlet component is used to render the components associated with the current route.
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as Crwn } from "./../assets/crown.svg";
+import { UserContext } from "../contexts/user-context";
+import { signOutUser } from "../utils/firebase/firebase";
 import "./navigation.scss";
 
 const Navigation = () => {
+  const { currentUser } = useContext(UserContext);
+
   return (
     <Fragment>
       <div className="navigation">
@@ -15,9 +19,16 @@ const Navigation = () => {
           <Link className="nav-link" to="/shop">
             Shop
           </Link>
-          <Link className="nav-link" to="/sign-in">
-            Sign In
-          </Link>
+
+          {currentUser ? (
+            <span className="nav-link" onClick={signOutUser}>
+              Sign Out
+            </span>
+          ) : (
+            <Link className="nav-link" to="/sign-in">
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
       <Outlet />
