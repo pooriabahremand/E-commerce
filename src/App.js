@@ -2,10 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./routes/Home";
 import Navigation from "./routes/Navigation";
 import SignIn from "./routes/SignInComponent";
-
-const Shop = () => {
-  return <h1> I am the shop page</h1>;
-};
+import Shop from "./component/Shop/Shop";
 
 const App = () => {
   return (
