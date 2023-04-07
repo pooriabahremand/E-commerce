@@ -2,11 +2,15 @@ import "./product-card.scss";
 import Button from "../sign-up/button";
 import { useContext } from "react";
 import { ProductContext } from "../../contexts/product-context";
+import { ShopCartContext } from "../../contexts/shopCart-context";
 
 const ProductCard = () => {
-  const { product } = useContext(ProductContext);
+  const { products } = useContext(ProductContext);
+  const { addItemToCart } = useContext(ShopCartContext);
 
-  return product.map(({ id, name, imageUrl, price }) => {
+  return products.map((product) => {
+    const { id, imageUrl, name, price } = product;
+
     return (
       <div className="product-card-container" key={id}>
         <img src={imageUrl} alt={name} />
@@ -14,7 +18,14 @@ const ProductCard = () => {
           <span className="name">{name}</span>
           <span className="price">{price}</span>
         </div>
-        <Button buttonType="inverted">Add to card</Button>
+        <Button
+          buttonType="inverted"
+          onClick={() => {
+            addItemToCart(product);
+          }}
+        >
+          Add to card
+        </Button>
       </div>
     );
   });
