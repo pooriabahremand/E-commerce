@@ -8,10 +8,10 @@ const CartIcon = () => {
   const { shopCartCounter, setShopCartCounter, quantityIcon } =
     useContext(ShopCartContext);
   const onClickHandler = () => {
-    if (shopCartCounter === null) {
-      setShopCartCounter(1);
+    if (shopCartCounter) {
+      setShopCartCounter(false);
     } else {
-      setShopCartCounter(null);
+      setShopCartCounter(true);
     }
   };
 
