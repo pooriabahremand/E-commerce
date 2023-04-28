@@ -1,5 +1,4 @@
 import { Fragment, useContext } from "react";
-import { Link } from "react-router-dom";
 import { CategoriesContext } from "./../../contexts/categories-context";
 import ProductCard from "./../../component/product-card/product-card";
 import { CategoryPreviewContainer, Title, Preview } from "./../shop.styles";
